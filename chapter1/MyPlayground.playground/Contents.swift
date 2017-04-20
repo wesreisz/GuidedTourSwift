@@ -1,112 +1,89 @@
 import Cocoa
 
-let MY_CONST: Float = 42
+//simple functions
+func greet(person: String, day: String) -> String {
+    return "Hello \(person), today is \(day)."
+}
+print(greet(person: "Bob", day: "Tuesday"))
 
-print(MY_CONST)
 
-print("the value of MY_CONST is: " + String(MY_CONST))
+func greetNew(person: String, msg: String) -> String {
+    return "Hello \(person), today's special is \(msg)."
+}
+print(greet(person: "Bob", day: "Spaghetti"))
 
-//varibles/constants/bears, ohh my
-let name = "Wes"
-let apples = 3.45
-let oranges = 5.3
-let appleSummary = "I have \(apples) apples"
-let fruitSummary = "\(name), I have \(apples + oranges) pieces of fruit"
-print(fruitSummary)
 
-//arrays
-var shoppingList = ["catfish", "water", "tulips", "blue paint"]
-print(shoppingList[2])
 
-var occupations = [
-    "Malcolm":"Captain",
-    "Kaylee":"Mechanic"
-]
-
-occupations["Jaynoo"] = "Public Relations"
-
-//empty array or dictionary
-let emptyArray = [String]()
-let emptyDictionary = [String: Float]()
-
-//Flow Control
-let individualScores = [75, 43, 103, 87, 12]
-var teamScore = 0
-for score in individualScores {
-    if score > 50 {
-        teamScore += 3
-    } else {
-        teamScore += 1
+//multiple return values and tuples
+func calculateStatistics(scores: [Int]) -> (min: Int, max: Int, sum: Int) {
+    var min = scores[0]
+    var max = scores[0]
+    var sum = 0
+    
+    for score in scores {
+        if score > max {
+            max = score
+        } else if score < min {
+            min = score
+        }
+        sum += score
     }
-}
-print("teamScore: " + String(teamScore))
-
-
-//optional
-var optionalString: String? = "Hello"
-print(optionalString == nil)
-
-
-var optionalName: String? = "Wes"
-var greeting = "Hello!"
-if let name = optionalName {
-    greeting = "Hello, \(name)"
+    
+    return (min, max, sum)
 }
 
-print(greeting)
+let statistics = calculateStatistics(scores: [5, 3, 100, 3, 9])
+print(statistics.sum)
+print(statistics.2)
 
-let vegetable = "red pepper"
-switch vegetable {
-case "celery":
-    print("Add some raisins and make ants on a log.")
-case "cucumber", "watercress":
-    print("That would make a good tea sandwich.")
-case let x where x.hasSuffix("pepper"):
-    print("Is it a spicy \(x)?")
-default:
-    print("Everything tastes good in soup.")
+
+//Write a function that calculates the average of its arguments.
+func calculateAverage(scores : [Float]) -> Float{
+    var sum : Float = 0.0
+    var count : Float = 0
+    for score in scores{
+        count += 1
+        sum += score
+    }
+    return (sum/count)
 }
+let newStats = calculateAverage(scores: [5,7,8,3,5,3,4,41.0,7,])
+print ("Average: \(newStats)")
 
-//iteration with dictionaries
-let interestingNumbers = [
-    "Prime": [2, 3, 5, 7, 11, 13],
-    "Fibonacci": [1, 1, 2, 3, 5, 8],
-    "Square": [1, 4, 9, 16, 25],
-]
-var largest = 0
-var largestKind = "Unknown"
-for (kind, numbers) in interestingNumbers {
-    for number in numbers {
-        if number > largest {
-            largest = number
-            largestKind = kind
+
+
+
+//closures
+func hasAnyMatches(list: [Int], condition: (Int) -> Bool) -> Bool {
+    for item in list {
+        if condition(item) {
+            return true
         }
     }
+    return false
 }
-print(String(largest) + " is of kind " + largestKind)
-
-//loop
-var n = 2
-while (n < 100) {
-    n *= 2
+func lessThanTen(number: Int) -> Bool {
+    return number < 10
 }
-print(n)
+var numbers = [20, 19, 7, 12, 4, 5]
+hasAnyMatches(list: numbers, condition: lessThanTen)
 
-//loop end of expression
-var m = 2
-repeat{
-    m *= 2
-} while m < 100
-print(m)
+//return 0 for all odd numbers
+print(numbers.map({ (number: Int) -> Int in
+    if number % 2 == 0 {
+        return number
+    }else{
+        return 0
+    }
+}))
 
 
-//for with value
-var total = 0
-for i in 0..<4 {
-    total += i
-}
-print(total)
+//: You can refer to parameters by number instead of by name—this approach is especially useful in very short closures. A closure passed as the last argument to a function can appear immediately after the parentheses. When a closure is the only argument to a function, you can omit the parentheses entirely.
+//:
+let sortedNumbers = numbers.sorted { $0 < $1 }
+print(sortedNumbers)
 
+//Stopped at Objects & Classes
 
 
 
